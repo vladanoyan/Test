@@ -12,10 +12,15 @@ class filterList extends React.Component {
     super(props);
     this.state = {
       value: '',
+      number: '',
     };
   }
-  handleChange(e) {
-    this.setState({ value: e.target.value.substr(0, 20) });
+  send(e) {
+    if (this.state.value !== '' || this.state.number !== '') {
+      this.props.dispatchText(this.state.value, this.state.number);
+    }
+    e.preventDefault();
+    this.setState({ value: '', number: '' });
   }
   render() {
     const itemFilter = this.props.contacts.filter(
@@ -26,15 +31,25 @@ class filterList extends React.Component {
         <Container>
           <Row>
             <Col>
-              <input
-                type="text"
-                className={cs.inputSearch}
-                placeholder="serach contacts"
-                value={this.state.value}
-                onChange={this.handleChange.bind(this)}
-              />
-              {itemFilter.map((item) =>
-                <li key={item.id}><p><Person />{item.name}</p><p><Phone />{item.phone}</p></li>)}
+              <form>
+                <input
+                  type="text"
+                  className={cs.inputSearch}
+                  placeholder="serach contacts"
+                  value={this.state.value}
+                  onChange={(e) => this.setState({ value: e.target.value.substr(0, 20) })}
+                />
+                <input
+                  type="text"
+                  className={cs.inputSearch}
+                  placeholder="serach number"
+                  value={this.state.number}
+                  onChange={(e) => this.setState({ number: e.target.value })}
+                />
+                <button className="alert-info" onClick={this.send.bind(this)}>search</button>
+                {itemFilter.map((item) =>
+                  <li key={item.id}><p><Person />{item.name}</p><p><Phone />{item.phone}</p></li>)}
+              </form >
             </Col>
           </Row>
         </Container>
@@ -44,6 +59,7 @@ class filterList extends React.Component {
 }
 
 filterList.propTypes = {
+  dispatchText: PropTypes.func.isRequired,
   contacts: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
@@ -56,6 +72,14 @@ const mapStateToProps = (state) => {
     contacts: state.contacts,
   };
 };
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatchText: (name, number) => {
+      dispatch({ type: 'ADD_USER', name, number });
+    },
+  };
+};
 export default connect(
   mapStateToProps,
+  mapDispatchToProps,
 )(filterList);

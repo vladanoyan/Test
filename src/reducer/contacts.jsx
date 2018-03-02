@@ -23,10 +23,15 @@ const contactList = [
 
 const contacts = (state = contactList, action) => {
   switch (action.type) {
-    case 'ADD_ITEMS':
+    case 'ADD_USER':
       console.log('dispatch Worked !!!');
       return [
         ...state,
+        {
+          name: action.name,
+          phone: action.number,
+          id: Date.now(),
+        },
       ];
     default:
       return state;
