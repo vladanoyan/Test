@@ -6,7 +6,9 @@ import thunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import reducer from '../../reducer';
-
+import NavBar from '../../components/ListingNavbar';
+import Footer from '../../components/Footer';
+import cs from './App.pcss';
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 
@@ -14,13 +16,13 @@ const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 class Root extends React.Component {
 
   render() {
-    const { route } = this.props;
-
     return (
       <div>
-        <Provider store={store}>
-          {renderRoutes(route.routes)}
+        <NavBar />
+        <Provider store={store} className={cs.App}>
+          {renderRoutes(this.props.route.routes)}
         </Provider>
+        <Footer />
       </div>
     );
   }

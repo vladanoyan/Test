@@ -2,7 +2,9 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import TiIconPack from 'react-icons/lib/fa/align-justify';
 import {
+  Collapse,
   Navbar,
+  Nav,
   NavItem,
 } from 'reactstrap';
 import cs from './component.pcss';
@@ -30,6 +32,13 @@ class NavbarMenu extends React.Component {
             <NavLink to="/" className={cs.brend}>
               vlad<span>anoyan</span>.github.io</NavLink>
           </NavItem>
+          <Collapse className={cs.collapse} isOpen={this.state.isOpen} navbar>
+            <Nav className="ml-auto" navbar>
+              <NavItem>
+                <NavLink activeClassName={`${cs.active1}`} to="/list" className={cs.link}>List</NavLink>
+              </NavItem>
+            </Nav>
+          </Collapse>
         </Navbar>
       </div>
     );

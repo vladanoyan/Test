@@ -24,15 +24,18 @@ const contactList = [
 const contacts = (state = contactList, action) => {
   switch (action.type) {
     case 'ADD_USER':
-      console.log('dispatch Worked !!!');
+      console.log('dispatch Worked !!!', state);
       return [
         ...state,
         {
           name: action.name,
           phone: action.number,
-          id: Date.now(),
+          id: action.ky,
         },
       ];
+    case 'DEL_USER':
+      console.log('dispatch DEL Worked !!!');
+      return state.filter(element => element.id !== action.num);
     default:
       return state;
   }
